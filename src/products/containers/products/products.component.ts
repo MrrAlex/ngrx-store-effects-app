@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 
-import { Pizza } from '../../models/pizza.model';
+import {Pizza} from '../../models/pizza.model';
 import {Store} from "@ngrx/store";
-import {ProductsState} from "../../store/reducers";
+import {getAllPizzas, ProductsState} from "../../store/reducers";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'products',
@@ -11,17 +12,17 @@ import {ProductsState} from "../../store/reducers";
     <div class="products">
       <div class="products__new">
         <a
-          class="btn btn__ok" 
+          class="btn btn__ok"
           routerLink="./new">
           New Pizza
         </a>
       </div>
       <div class="products__list">
-        <div *ngIf="!((pizzas)?.length)">
+        <div *ngIf="!((pizzas$ | async)?.length)">
           No pizzas, add one to get started.
         </div>
         <pizza-item
-          *ngFor="let pizza of (pizzas)"
+          *ngFor="let pizza of (pizzas$ | async)"
           [pizza]="pizza">
         </pizza-item>
       </div>
@@ -29,13 +30,12 @@ import {ProductsState} from "../../store/reducers";
   `,
 })
 export class ProductsComponent implements OnInit {
-  pizzas: Pizza[];
+  pizzas$: Observable<Pizza[]>;
 
-  constructor(private store: Store<ProductsState>) {}
+  constructor(private store: Store<ProductsState>) {
+  }
 
   ngOnInit() {
-    this.store.select<any>('products').subscribe(state => {
-      console.log(state);
-    });
+    this.pizzas$ = this.store.select(getAllPizzas);
   }
 }
