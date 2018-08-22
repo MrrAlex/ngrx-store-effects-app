@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {Pizza} from '../../models/pizza.model';
 import {Store} from "@ngrx/store";
@@ -37,7 +37,7 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.pizzas$ = this.store.select(getAllPizzas);
+    this.pizzas$ = this.store.select(getAllPizzas);
     this.store.dispatch(new LoadPizzas({}))
   }
 }
