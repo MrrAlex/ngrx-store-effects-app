@@ -30,7 +30,7 @@ export function reducer(state = initialState, action: PizzasAction): PizzaState 
         }, {
           ...state.entities,
         }
-      )
+      );
       return {...state, loading: false, loaded: true, entities};
     }
     case LOAD_PIZZAS_FAIL: {

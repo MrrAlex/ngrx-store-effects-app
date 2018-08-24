@@ -14,5 +14,41 @@ export const initialState: ToppingsState = {
 }
 
 export function reducer( state = initialState, action: fromToppings.ToppingAction):ToppingsState {
+  switch (action.type) {
+    case fromToppings.LOAD_TOPPINGS: {
+      return {
+        ...state, loading:true
+      }
+    }
+    case fromToppings.LOAD_TOPPINGS_SUCCESS: {
+
+      const toppings = action.payload;
+
+      const entities = toppings.reduce(
+        (entities: {[id: number]:Topping}, topping: Topping) => {
+          return {
+            ...entities,
+            [topping.id]: topping
+          };
+        }, {
+          ...state.entities,
+        }
+      )
+
+      return {
+        ...state, loading:false, loaded:true, entities
+      }
+    }
+
+    case fromToppings.LOAD_TOPPINGS_FAIL: {
+      return {
+        ...state, loaded: false, loading: false
+      }
+    }
+  }
   return state;
 }
+
+export const getToppingsEntities = (state: ToppingsState) => state.entities;
+export const getToppingsLoaded = (state: ToppingsState) => state.loaded;
+export const getToppingsLoading = (state: ToppingsState) => state.loading;
