@@ -6,7 +6,7 @@ import {Pizza} from "../../models/pizza.model";
 
 export const getPizzasState = createSelector(getProductsState, (state: ProductsState) => state.pizzas);
 
-export const getAllPizzasEntities = createSelector(getPizzasState, getPizzasEntities)
+export const getAllPizzasEntities = createSelector(getPizzasState, getPizzasEntities);
 
 export const getSelectedPizza = createSelector(getAllPizzasEntities, getRouterState, (entities, router): Pizza => {
   return router.state && entities[router.state.params.pizzaId];
