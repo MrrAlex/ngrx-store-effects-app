@@ -1,15 +1,12 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
 
-import { Pizza } from '../../models/pizza.model';
-import { PizzasService } from '../../services/pizzas.service';
+import {Pizza} from '../../models/pizza.model';
 
-import { Topping } from '../../models/topping.model';
-import { ToppingsService } from '../../services/toppings.service';
+import {Topping} from '../../models/topping.model';
 import {Observable} from "rxjs";
 import {ProductsState} from "../../store/reducers";
 import {Store} from "@ngrx/store";
-import {getSelectedPizza} from "../../store/selectors";
+import * as fromStore from "../../store/selectors";
 import {LoadTopping} from "../../store/actions/toppings.action";
 
 @Component({
@@ -20,7 +17,7 @@ import {LoadTopping} from "../../store/actions/toppings.action";
       class="product-item">
       <pizza-form
         [pizza]="pizza$ | async"
-        [toppings]="toppings"
+        [toppings]="toppings$ | async"
         (selected)="onSelect($event)"
         (create)="onCreate($event)"
         (update)="onUpdate($event)"
@@ -35,7 +32,7 @@ import {LoadTopping} from "../../store/actions/toppings.action";
 export class ProductItemComponent implements OnInit {
   pizza$: Observable<Pizza>;
   visualise: Pizza;
-  toppings: Topping[];
+  toppings$: Observable<Topping[]>;
 
   constructor(
    private store: Store<ProductsState>
@@ -57,7 +54,8 @@ export class ProductItemComponent implements OnInit {
     //   });
     // });
     this.store.dispatch(new LoadTopping({}));
-    this.pizza$ = this.store.select(getSelectedPizza);
+    this.pizza$ = this.store.select(fromStore.getSelectedPizza);
+    this.toppings$ = this.store.select(fromStore.getAllToppings)
   }
 
   onSelect(event: number[]) {
