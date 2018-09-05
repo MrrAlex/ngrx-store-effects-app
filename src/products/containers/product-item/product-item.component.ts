@@ -39,26 +39,13 @@ export class ProductItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.pizzaService.getPizzas().subscribe(pizzas => {
-    //   const param = this.route.snapshot.params.id;
-    //   let pizza;
-    //   if (param === 'new') {
-    //     pizza = {};
-    //   } else {
-    //     pizza = pizzas.find(pizza => pizza.id == parseInt(param, 10));
-    //   }
-    //   this.pizza = pizza;
-    //   this.toppingsService.getToppings().subscribe(toppings => {
-    //     this.toppings = toppings;
-    //     this.onSelect(toppings.map(topping => topping.id));
-    //   });
-    // });
     this.store.dispatch(new LoadTopping({}));
     this.pizza$ = this.store.select(fromStore.getSelectedPizza);
     this.toppings$ = this.store.select(fromStore.getAllToppings)
   }
 
   onSelect(event: number[]) {
+    
   }
 
   onCreate(event: Pizza) {

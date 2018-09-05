@@ -5,6 +5,8 @@ export const LOAD_TOPPINGS = '[Products] Load Toppings';
 export const LOAD_TOPPINGS_FAIL = '[Products] Load Toppings Fail';
 export const LOAD_TOPPINGS_SUCCESS = '[Products] Load Toppings Success';
 
+export const VISUALIZE_TOPPINGS = '[Products] Visualize Toppings';
+
 export class LoadTopping implements Action {
   readonly type: string = LOAD_TOPPINGS;
   constructor(public payload: any) {}
@@ -20,4 +22,9 @@ export class LoadToppingSuccess implements Action {
   constructor(public payload: Topping[]) {}
 }
 
-export type ToppingAction = LoadTopping | LoadToppingFail | LoadToppingSuccess;
+export class VisualizeToppings implements Action {
+  readonly type: string = VISUALIZE_TOPPINGS;
+  constructor(public payload: number[]) {}
+}
+
+export type ToppingAction = LoadTopping | LoadToppingFail | LoadToppingSuccess | VisualizeToppings;
