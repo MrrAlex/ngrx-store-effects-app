@@ -1,13 +1,14 @@
 import { Pizza } from "../../models/pizza.model";
 import {
+  CREATE_PIZZA_SUCCESS, DELETE_PIZZA_SUCCESS,
   LOAD_PIZZAS,
   LOAD_PIZZAS_FAIL,
   LOAD_PIZZAS_SUCCESS,
-  PizzasAction
-} from "../actions/pizzas.action";
+  PizzasAction, UPDATE_PIZZA_SUCCESS
+} from "../actions";
 
 export interface PizzaState {
-  entities: { [id: number]: Pizza };
+  entities: {[id: number]: Pizza} ;
   loaded: boolean;
   loading: boolean;
 }
@@ -44,6 +45,22 @@ export function reducer(
     }
     case LOAD_PIZZAS_FAIL: {
       return { ...state, loading: false, loaded: false };
+    }
+    case CREATE_PIZZA_SUCCESS :
+    case UPDATE_PIZZA_SUCCESS : {
+      const pizza = action.payload;
+      const entities = {
+        ...state.entities,
+        [pizza.id]: pizza
+      };
+
+      return {...state, entities};
+    }
+    case DELETE_PIZZA_SUCCESS: {
+      const pizza = action.payload;
+      const { [pizza.id]: removed, ...entities } = state.entities;
+
+      return {...state, entities };
     }
   }
   return state;
