@@ -33,6 +33,7 @@ export const ROUTES: Routes = [
     component: fromContainers.ProductItemComponent,
   },{
     path: ':pizzaId',
+    canActivate: [fromGuards.PizzaExistsGuard],
     component: fromContainers.ProductItemComponent,
   }
 ];
